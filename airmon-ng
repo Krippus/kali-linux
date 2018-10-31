@@ -1,0 +1,8 @@
+#LISTAR WIFIS ACTIVAS
+  root@kali:~# airmon-ng start wlan0
+  
+---------------------
+#activar el modo monitor
+  root@kali:~# airmon-ng check kill
+  
+----------------------
